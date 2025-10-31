@@ -1,5 +1,5 @@
 from langchain_community.document_loaders.csv_loader import CSVLoader
-
+from tqdm import tqdm
 
 from config import PROMPT_FILE, OUTPUT_FILE, LLM_MODEL
 from db_service import DBService
@@ -16,6 +16,7 @@ def generate_listings():
         else:
             print("Output file exists but is empty. Proceeding with generation.")
 
+    print("Generating listing data using LLM...")
     prompt = load_prompt(PROMPT_FILE)
 
     csv_data = get_llm_response(prompt, LLM_MODEL)
@@ -63,11 +64,12 @@ answers = [
 
 query = " ".join(answers)
 
-context = db_service.retrieve_similar(query, k=5)
+context = db_service.retrieve_similar(query, k=3)
 
-print("Top 5 similar property listings based on user preferences:")
-for i, doc in enumerate(context):
-    # Use the LLM to augment the listing description
+
+# Collect LLM-augmented listing suggestions
+listing_suggestions = []
+for i, doc in enumerate(tqdm(context, desc="Processing listings")):
     prompt = (
         f"You are a real estate agent. "
         f"Given the following property listing:\n\n{doc.page_content}\n\n"
@@ -76,4 +78,13 @@ for i, doc in enumerate(context):
         "Do not add or change any factual information—only highlight relevant aspects."
     )
     response = get_llm_response(prompt, LLM_MODEL)
-    print(f"{i + 1}. {response}")
+    listing_suggestions.append({
+        "listing_number": i + 1,
+        "augmented_description": response.strip()
+    })
+
+print("\n===== Listing Suggestions Based on Your Preferences =====\n")
+for suggestion in listing_suggestions:
+    print(f"Listing #{suggestion['listing_number']}")
+    print(suggestion['augmented_description'])
+    print("\n" + "-"*60 + "\n")

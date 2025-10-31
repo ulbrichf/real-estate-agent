@@ -58,11 +58,9 @@ def validate_llm_response(response: str) -> bool:
 
 def get_llm_response(prompt_text: str, model: str) -> str:
     """Invokes the LLM and returns the raw text response, handling errors with retries."""
-    print(f"Initializing model: {model}...")
 
     def invoke():
         llm = ChatOpenAI(model=model, temperature=0.3)
-        print("Sending prompt to OpenAI... (This may take a moment)...")
         response = llm.invoke(prompt_text)
         if validate_llm_response(response.content):
             return response.content
