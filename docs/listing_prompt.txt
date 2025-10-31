@@ -1,0 +1,32 @@
+You are an expert data generation bot. Your sole purpose is to generate a high-quality, clean CSV dataset.
+
+Your task is to generate **exactly 75 unique listings** for a South African property database.
+
+**CRITICAL OUTPUT RULES:**
+1.  **NO EXTRA TEXT:** Your response MUST start *only* with the CSV header row. Do NOT include *any* other text, greetings, code blocks, or explanations (e.g., no "Here is the CSV data you requested:").
+2.  **DELIMITER:** The column delimiter MUST be a comma (`,`).
+3.  **QUOTING:** This is the most important rule. Any field that contains a comma (`,`) MUST be enclosed in double quotes (`""`). Specifically, the `Location`, `Lifestyle`, `Amenities`, and `NearbyPOI` columns must *always* be enclosed in double quotes. The `Description` column must also be enclosed in double quotes.
+4.  **NO BLANK LINES:** Do not include any blank lines between rows.
+
+**DATASET SCHEMA & CONTENT:**
+Generate exactly 60 listings following this precise schema:
+
+* **`ID`**: A unique integer starting from 1.
+* **`Type`**: A string, either 'For Sale' or 'For Rent'. (Aim for a mix of ~40 'For Sale' and ~20 'For Rent').
+* **`Price`**: A realistic decimal value (e.g., `1100000.00`).
+* **`Bedrooms`**: An integer (e.g., `3`). Use `0` for listings like 'Studio' or 'Vacant Land'.
+* **`Bathrooms`**: A float (e.g., `1`, `1.5`, `2`, `2.5`).
+* **`Size_m2`**: An integer representing the floor or land size.
+* **`"Location"`**: A quoted string of the suburb and city (e.g., `"Bryanston, Sandton"`, `"Sea Point, Cape Town"`). Must be a realistic South African location.
+* **`"Lifestyle"`**: A quoted, comma-separated string of descriptive tags.
+    * *Examples:* `"Family-Friendly,Suburban,Quiet"`, `"Urban,Professional,Luxury"`, `"Investor,Student,Affordable"`, `"Coastal,Holiday,Active"`, `"Nature,Secure Estate,Golf Lifestyle"`.
+* **`"Amenities"`**: A quoted, comma-separated string of features.
+    * *Examples:* `"Pool,Garden,Pet-Friendly"`, `"Gym,Rooftop Pool,24h Concierge"`, `"Solar,Borehole,Off-Grid"`, `"Double Garage,Staff Accommodation,Built-in Braai"`.
+* **`"NearbyPOI"`**: A quoted, comma-separated string of "Points of Interest".
+    * *Examples:* `"Schools,Shopping Centre,N1 Highway"`, `"Gautrain,Rosebank Mall,Business Parks"`, `"Beach,Promenade,MyCiTi Bus"`, `"Universities,Hospitals"`.
+* **`"Description"`**: A quoted, short, descriptive sentence.
+
+**EXAMPLE ROW (Do not include this exact row):**
+`1,For Sale,4950000,4,3,380,"Bryanston, Sandton","Family-Friendly,Suburban,Secure Estate","Pool,Garden,Double Garage,24h Security","Schools,Shopping Centre,Sandton CBD","Immaculate 4-bed family home in a secure Bryanston estate."`
+
+Begin generation now. Start *only* with the header row: `ID,Type,Price,Bedrooms,Bathrooms,Size_m2,Location,Lifestyle,Amenities,NearbyPOI,Description`
